@@ -49,8 +49,10 @@ class ReservationController extends Controller
             'email'         => 'required',
             'last_name'     => 'required|max:50',
             'first_name'    => 'required|max:50',
-            'year'          => 'required',
-            'phone'         => 'required',
+            'year'          => 'required|numeric',
+            'phone'         => 'required|numeric',
+            'evidence'      => 'required',
+            'type'          => 'required',
             'message'       => 'nullable',
         ])->validate();
 
@@ -64,6 +66,8 @@ class ReservationController extends Controller
             'year'          => $reservation->year,
             'email'         => $reservation->email,
             'phone'         => $reservation->phone,
+            'evidence'      => $reservation->evidence,
+            'type'          => $reservation->type,
             'message'       => $reservation->message,
             'created_at'    => $reservation->created_at,
         ];
