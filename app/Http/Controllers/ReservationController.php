@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ReservationMail;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class ReservationController extends Controller
 {
@@ -38,7 +43,34 @@ class ReservationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // return $request;
+
+        $validData = Validator::make($request->all(), [
+            'email'         => 'required',
+            'last_name'     => 'required|max:50',
+            'first_name'    => 'required|max:50',
+            'year'          => 'required',
+            'phone'         => 'required',
+            'message'       => 'nullable',
+        ])->validate();
+
+        Reservation::create($validData);
+
+        $reservation = Reservation::latest()->first();
+
+        $data = [
+            'last_name'     => $reservation->last_name,
+            'first_name'    => $reservation->first_name,
+            'year'          => $reservation->year,
+            'email'         => $reservation->email,
+            'phone'         => $reservation->phone,
+            'message'       => $reservation->message,
+            'created_at'    => $reservation->created_at,
+        ];
+
+        Mail::to('ambulance.ortopedie@khn.cz')->send(new ReservationMail($data));
+        Alert::toast('Rezervace úspěšně odeslána');
+        return redirect()->back();
     }
 
     /**

@@ -22,7 +22,7 @@ class CreateReservationsTable extends Migration
             $table->integer('phone');
             $table->enum('evidence', ['Ne', 'Ano']);
             $table->enum('type', ['Ortopedie', 'Spondylochirurgie (nemoci páteře)']);
-            $table->text('message');
+            $table->text('message')->nullable();
             $table->timestamps();
         });
     }
