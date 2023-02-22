@@ -9,7 +9,9 @@
 </head>
 
 <body>
-  Rezervace
+  @foreach ($reservations as $reservation)
+    <p>{{ $reservation->last_name }}</p>
+  @endforeach
 </body>
 
 </html>
